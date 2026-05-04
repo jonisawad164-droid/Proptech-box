@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bravida Proptech BOX – Säljverktyg</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brv-blue: #0063A3;
+    --brv-darkblue: #003F6B;
+    --brv-lightblue: #CEE8EE;
+    --brv-pale: #E8F4F7;
+    --brv-green: #7DD4B0;
+    --brv-text: #2B2B2B;
+    --bg: #F5F7F9;
+    --surface: #FFFFFF;
+    --border: #E0E6EC;
+    --muted: #6B7884;
+    --gold: #E8A82E;
+    --success: #2E9968;
+    --danger: #E84C4C;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--brv-text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .brand-row { display: flex; align-items: center; gap: 8px; }
+  .star-logo {
+    width: 26px; height: 26px;
+    flex-shrink: 0;
+  }
+  .brand-text {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--brv-blue);
+    letter-spacing: -0.01em;
+  }
+  .brand-sub {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-left: 0.5rem;
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--border);
+  }
+  .header-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .btn-icon {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--brv-text);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .btn-icon:hover { border-color: var(--brv-blue); color: var(--brv-blue); }
+
+  .tabs {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 0.85rem 1.1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .tab:hover { color: var(--brv-blue); }
+  .tab.active { color: var(--brv-blue); border-bottom-color: var(--brv-blue); }
+  .tab .tab-num {
+    background: var(--bg);
+    color: var(--muted);
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  .tab.active .tab-num { background: var(--brv-blue); color: #fff; }
+  .tab .tab-count {
+    background: var(--brv-pale);
+    color: var(--brv-blue);
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+
+  main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+  .panel { display: none; animation: fadeIn 0.2s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .hero {
+    background: linear-gradient(135deg, var(--brv-blue) 0%, var(--brv-darkblue) 100%);
+    color: #fff;
+    padding: 1.5rem 1.75rem;
+    border-radius: 14px;
+    margin-bottom: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero h1 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.015em;
+  }
+  .hero p {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.88rem;
+    max-width: 700px;
+    line-height: 1.5;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  @media (max-width: 768px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .card-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--brv-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .card-subtitle {
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.85rem; }
+  .field label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .field label .help {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 400;
+    font-style: italic;
+  }
+  .field input, .field select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--brv-text);
+    padding: 0.6rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    width: 100%;
+  }
+  .field input:focus, .field select:focus {
+    border-color: var(--brv-blue);
+    box-shadow: 0 0 0 3px rgba(0,99,163,0.1);
+  }
+  .input-suffix { position: relative; }
+  .input-suffix input { padding-right: 50px; }
+  .input-suffix .suffix {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    pointer-events: none;
+  }
+
+  .btn {
+    padding: 0.65rem 1.3rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+  }
+  .btn-primary { background: var(--brv-blue); color: #fff; }
+  .btn-primary:hover { background: var(--brv-darkblue); }
+  .btn-secondary { background: var(--surface); color: var(--brv-blue); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--brv-blue); }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-success:hover { background: #257a52; }
+
+  .info-box {
+    background: var(--brv-pale);
+    border-left: 3px solid var(--brv-blue);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: var(--brv-darkblue);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  /* MÄTNING TABLE */
+  .matning-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .matning-table th {
+    text-align: left;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  .matning-table td {
+    padding: 0.55rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    vertical-align: middle;
+  }
+  .matning-table .col-prod { font-weight: 500; }
+  .matning-table .col-prod-desc {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 1px;
+  }
+  .matning-table .col-antal input {
+    width: 70px;
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    text-align: center;
+  }
+  .matning-table .col-antal input:focus {
+    border-color: var(--brv-blue);
+    outline: none;
+  }
+  .matning-table .col-pris {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+  .matning-table .col-summa {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--brv-darkblue);
+  }
+  .matning-table tr.total td {
+    background: var(--brv-pale);
+    font-weight: 700;
+    border-bottom: none;
+    border-top: 2px solid var(--brv-blue);
+  }
+  .matning-table tr.total .col-summa {
+    font-size: 1.05rem;
+    color: var(--brv-blue);
+  }
+  .matning-table tr.section-header td {
+    background: var(--bg);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    font-weight: 700;
+    padding: 0.5rem 0.6rem;
+  }
+
+  /* TIER SELECTOR */
+  .tier-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .tier {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.65rem 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .tier:hover { border-color: var(--brv-blue); }
+  .tier.selected {
+    border-color: var(--brv-blue);
+    background: var(--brv-pale);
+  }
+  .tier.recommended::after {
+    content: 'AUTO';
+    position: absolute;
+    top: -8px;
+    right: -6px;
+    background: var(--brv-green);
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+  .tier-name { font-weight: 700; font-size: 0.88rem; color: var(--brv-darkblue); }
+  .tier-range { font-size: 0.72rem; color: var(--muted); margin: 2px 0; }
+  .tier-price { font-size: 0.78rem; font-weight: 600; color: var(--brv-blue); }
+
+  /* PRODUCT TYPE TOGGLE */
+  .product-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .product-card {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--surface);
+  }
+  .product-card:hover { border-color: var(--brv-blue); }
+  .product-card.selected {
+    border-color: var(--brv-blue);
+    background: var(--brv-pale);
+  }
+  .product-card-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--brv-darkblue);
+    margin-bottom: 0.25rem;
+  }
+  .product-card-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* KPI */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 768px) { .kpi-grid { grid-template-columns: 1fr 1fr; } }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .kpi.highlight {
+    background: linear-gradient(135deg, var(--brv-pale) 0%, #fff 100%);
+    border-color: var(--brv-blue);
+  }
+  .kpi.gold {
+    background: linear-gradient(135deg, #FFF8E8 0%, #fff 100%);
+    border-color: var(--gold);
+  }
+  .kpi-label {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+  }
+  .kpi-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--brv-darkblue);
+    letter-spacing: -0.02em;
+  }
+  .kpi.gold .kpi-value { color: var(--gold); }
+  .kpi-unit { font-size: 0.78rem; font-weight: 500; color: var(--muted); margin-top: 2px; }
+
+  /* SUMMARY BOX */
+  .summary-box {
+    background: linear-gradient(135deg, var(--brv-blue) 0%, var(--brv-darkblue) 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    font-size: 0.9rem;
+  }
+  .summary-row:last-of-type { border-bottom: none; }
+  .summary-row.total {
+    border-top: 2px solid rgba(255,255,255,0.4);
+    padding-top: 0.85rem;
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .summary-row .val { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* REGISTER */
+  .register-table { width: 100%; border-collapse: collapse; }
+  .register-table th {
+    text-align: left;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  .register-table td {
+    padding: 0.85rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .register-table tr:hover td { background: var(--bg); }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted);
+  }
+
+  /* PDF */
+  .pdf-actions {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .pdf-preview {
+    background: #E8ECEF;
+    padding: 1.5rem 1rem;
+    border-radius: 10px;
+  }
+  .brv-page {
+    width: 210mm;
+    max-width: 100%;
+    min-height: 297mm;
+    background: #fff;
+    color: var(--brv-text);
+    margin: 0 auto 1rem auto;
+    padding: 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .brv-page-inner {
+    padding: 20mm 20mm 30mm 20mm;
+    position: relative;
+    min-height: 297mm;
+    box-sizing: border-box;
+  }
+  .brv-cover-addr {
+    position: absolute;
+    top: 28mm;
+    left: 20mm;
+    color: var(--brv-blue);
+    font-size: 10.5pt;
+    line-height: 1.55;
+    z-index: 3;
+  }
+  .brv-cover-addr strong { font-weight: 700; display: block; }
+  .brv-cover-star { position: absolute; top: 22mm; right: 22mm; width: 48mm; height: 48mm; z-index: 3; }
+  .brv-cover-box {
+    position: absolute;
+    left: 0; right: 0;
+    top: 85mm; bottom: 55mm;
+    background: var(--brv-lightblue);
+    border-radius: 0 120mm 0 0;
+    z-index: 1;
+  }
+  .brv-cover-inner { position: absolute; left: 22mm; top: 145mm; right: 40mm; z-index: 2; }
+  .brv-cover-title {
+    font-size: 38pt;
+    font-weight: 300;
+    color: var(--brv-blue);
+    letter-spacing: -0.025em;
+    line-height: 1;
+    margin-bottom: 4mm;
+  }
+  .brv-cover-undertitle {
+    font-size: 14pt;
+    color: var(--brv-blue);
+    margin-bottom: 14mm;
+    line-height: 1.3;
+  }
+  .brv-cover-sub { color: var(--brv-blue); font-size: 11pt; line-height: 1.8; }
+  .brv-cover-footer {
+    position: absolute;
+    bottom: 18mm;
+    left: 20mm; right: 20mm;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20mm;
+  }
+  .brv-vision-block { max-width: 90mm; font-size: 7.5pt; line-height: 1.45; }
+  .brv-vision-title { color: var(--brv-blue); font-weight: 700; font-size: 8.5pt; margin-bottom: 1mm; }
+  .brv-logo-big { display: flex; align-items: center; gap: 5px; }
+  .brv-logo-svg-big { width: 26px; height: 26px; }
+  .brv-logo-text-big { font-size: 18pt; font-weight: 600; color: var(--brv-blue); }
+
+  .brv-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12mm;
+  }
+  .brv-logo-row { display: flex; align-items: center; gap: 4px; }
+  .brv-logo-svg { width: 20px; height: 20px; }
+  .brv-logo-text { font-weight: 600; font-size: 13pt; color: var(--brv-blue); letter-spacing: -0.015em; }
+  .brv-refblock { font-size: 9pt; text-align: right; display: flex; gap: 25mm; }
+
+  .brv-h1 {
+    color: var(--brv-blue);
+    font-size: 17pt;
+    font-weight: 700;
+    margin: 0 0 5mm 0;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .brv-h2 {
+    color: var(--brv-blue);
+    font-size: 13pt;
+    font-weight: 700;
+    margin: 6mm 0 2mm 0;
+  }
+  .brv-p { margin: 0 0 3mm 0; }
+  .brv-ul { margin: 1mm 0 4mm 5mm; }
+  .brv-ul li { margin-bottom: 1mm; list-style: disc; padding-left: 1mm; }
+
+  .brv-besparing-box {
+    background: var(--brv-lightblue);
+    padding: 5mm 6mm;
+    border-radius: 2mm;
+    margin: 5mm 0;
+  }
+  .brv-besparing-label {
+    font-weight: 700;
+    color: var(--brv-blue);
+    font-size: 10.5pt;
+    margin-bottom: 2mm;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brv-besparing-value { font-size: 16pt; font-weight: 700; color: var(--brv-darkblue); margin-bottom: 2mm; }
+  .brv-besparing-formula { font-size: 9pt; font-style: italic; }
+  .brv-payoff { font-size: 13pt; font-weight: 700; color: var(--brv-blue); margin: 5mm 0 2mm 0; }
+
+  .brv-price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5mm 0;
+    gap: 4mm;
+  }
+  .brv-price-label { flex: 1; line-height: 1.4; }
+  .brv-price-val { font-variant-numeric: tabular-nums; }
+
+  .brv-footer {
+    position: absolute;
+    bottom: 12mm;
+    left: 20mm; right: 20mm;
+    font-size: 7.5pt;
+    line-height: 1.3;
+  }
+  .brv-footer-cols {
+    display: grid;
+    grid-template-columns: 35mm 35mm 22mm 28mm 1fr;
+    gap: 4mm;
+    padding-top: 2mm;
+  }
+  .brv-footer-fskat { font-size: 7pt; }
+
+  .signature-cursive { font-family: 'Dancing Script', cursive; font-size: 22pt; line-height: 1; }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    body, html { background: #fff; margin: 0; padding: 0; }
+    header, .tabs, #panel-matning, #panel-energi, #panel-proptech, #panel-register, .pdf-actions, .panel-nav { display: none !important; }
+    main { max-width: none; padding: 0; margin: 0; }
+    .pdf-preview { background: #fff; padding: 0; box-shadow: none; border-radius: 0; }
+    .brv-page {
+      box-shadow: none;
+      margin: 0;
+      page-break-after: always;
+      width: 210mm;
+      height: 297mm;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .brv-page:last-child { page-break-after: auto; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  }
+
+  .panel-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .step-flow {
+    background: var(--brv-pale);
+    border-radius: 8px;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.85rem;
+    color: var(--brv-darkblue);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .step-flow strong { color: var(--brv-blue); }
+
+  .matning-summary {
+    background: var(--brv-blue);
+    color: #fff;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  .matning-summary-label { font-size: 0.85rem; opacity: 0.9; }
+  .matning-summary-val {
+    font-size: 1.4rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-row">
+    <svg class="star-logo" viewBox="0 0 100 100"><path fill="#7DD4B0" d="M50 0 C50 28 28 50 0 50 C28 50 50 72 50 100 C50 72 72 50 100 50 C72 50 50 28 50 0 Z"/></svg>
+    <span class="brand-text">bravida</span>
+    <span class="brand-sub">Proptech BOX Säljverktyg</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn-icon" onclick="document.getElementById('load-file').click()">📂 Öppna</button>
+    <input type="file" id="load-file" accept=".json" style="display:none" onchange="loadCustomer(event)">
+    <button class="btn-icon" onclick="resetForm()">↻ Ny kund</button>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" data-tab="kund" onclick="switchTab('kund')"><span class="tab-num">1</span> Kund</div>
+  <div class="tab" data-tab="matning" onclick="switchTab('matning')"><span class="tab-num">2</span> Mätning</div>
+  <div class="tab" data-tab="energi" onclick="switchTab('energi')"><span class="tab-num">3</span> Smart Energikontroll</div>
+  <div class="tab" data-tab="proptech" onclick="switchTab('proptech')"><span class="tab-num">4</span> Proptech BOX</div>
+  <div class="tab" data-tab="anbud" onclick="switchTab('anbud')"><span class="tab-num">5</span> Anbud-PDF</div>
+  <div class="tab" data-tab="register" onclick="switchTab('register')">👥 Register <span class="tab-count" id="register-count">0</span></div>
+</div>
+
+<main>
+
+<!-- ================= STEP 1: KUND & ENERGI ================= -->
+<div class="panel active" id="panel-kund">
+  <div class="hero">
+    <h1>1. Kunduppgifter & Fjärrvärmedata</h1>
+    <p>Mata in BRF/kund och fjärrvärmedata från senaste fakturan. Detta används i alla efterföljande kalkyler och i besparingsanalysen.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Kund</div></div>
+      <div class="field"><label>BRF / Företagsnamn</label><input type="text" id="kund-namn" placeholder="BRF Snälltorpet" oninput="onChange()"></div>
+      <div class="field"><label>Kontaktperson</label><input type="text" id="kund-kontakt" placeholder="Anna Lindström" oninput="onChange()"></div>
+      <div class="field"><label>Adress</label><input type="text" id="kund-adress" placeholder="Tunavallsgränden 2" oninput="onChange()"></div>
+      <div class="field"><label>Postnummer & Ort</label><input type="text" id="kund-ort" placeholder="632 23 Eskilstuna" oninput="onChange()"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">Fastighet</div></div>
+      <div class="grid-2">
+        <div class="field"><label>Antal lägenheter</label><input type="number" id="data-antal-lgh" placeholder="30" oninput="onChange()"></div>
+        <div class="field">
+          <label>BOA / LOA <span class="help">m²</span></label>
+          <div class="input-suffix"><input type="number" id="data-boa" placeholder="1650" oninput="onChange()"><span class="suffix">m²</span></div>
+        </div>
+        <div class="field">
+          <label>Måltemp inomhus</label>
+          <div class="input-suffix"><input type="number" id="data-temp" value="22" step="0.5" oninput="onChange()"><span class="suffix">°C</span></div>
+        </div>
+        <div class="field">
+          <label>Värmeeffekt UC <span class="help">(valfritt)</span></label>
+          <div class="input-suffix"><input type="number" id="data-effekt" placeholder="120" oninput="onChange()"><span class="suffix">kW</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Fjärrvärmedata från faktura</div></div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Total förbrukning <span class="help">kWh/år</span></label>
+        <div class="input-suffix"><input type="number" id="data-totalkwh" placeholder="240000" oninput="onChange()"><span class="suffix">kWh</span></div>
+      </div>
+      <div class="field">
+        <label>Total kostnad <span class="help">kr/år exkl. moms</span></label>
+        <div class="input-suffix"><input type="number" id="data-totalkr" placeholder="280000" oninput="onChange()"><span class="suffix">kr</span></div>
+      </div>
+      <div class="field">
+        <label>VV+VVC per månad <span class="help">från sommarmånad</span></label>
+        <div class="input-suffix"><input type="number" id="data-vvmonth" placeholder="4000" oninput="onChange()"><span class="suffix">kWh</span></div>
+      </div>
+      <div class="field">
+        <label>Antagen besparing</label>
+        <div class="input-suffix"><input type="number" id="data-pct" value="15" min="5" max="40" oninput="onChange()"><span class="suffix">%</span></div>
+      </div>
+      <div class="field">
+        <label>Avtalstyp index</label>
+        <input type="text" id="data-index" value="3021-25 Teknikinstallationsavtalet">
+      </div>
+      <div class="field">
+        <label>År för fakturaunderlag</label>
+        <input type="number" id="data-ar" value="2026">
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Värmesystem</div><div class="kpi-value" id="kpi-varme">–</div><div class="kpi-unit">kWh/år</div></div>
+    <div class="kpi"><div class="kpi-label">Energipris</div><div class="kpi-value" id="kpi-pris">–</div><div class="kpi-unit">kr/kWh</div></div>
+    <div class="kpi highlight"><div class="kpi-label">Bruttobesparing</div><div class="kpi-value" id="kpi-besparing">–</div><div class="kpi-unit">kr/år</div></div>
+    <div class="kpi"><div class="kpi-label">Tier (auto)</div><div class="kpi-value" id="kpi-tier">–</div><div class="kpi-unit">baserat på LGH</div></div>
+  </div>
+
+  <div class="panel-nav">
+    <div></div>
+    <button class="btn btn-primary" onclick="switchTab('matning')">Nästa: Mätning →</button>
+  </div>
+</div>
+
+<!-- ================= STEP 2: MÄTNING ================= -->
+<div class="panel" id="panel-matning">
+  <div class="hero">
+    <h1>2. Mätningskalkyl</h1>
+    <p>Räkna fram total kostnad för mätinstallationen (sensorer, antenner, repeaters, elinstallation). Resultatet flödar automatiskt vidare till Smart Energikontroll och Proptech BOX.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Täckningsgrad (TG)</div>
+        <div class="card-subtitle">Styr förhållandet mellan kostpris och rekommenderat pris</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>TG <span class="help">default 0.45</span></label>
+        <input type="number" id="m-tg" value="0.45" step="0.01" min="0.1" max="0.9" oninput="renderMatning()">
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <div style="display: flex; gap: 0.4rem">
+          <button class="btn-icon" onclick="setTG(0.40)">0,40</button>
+          <button class="btn-icon" onclick="setTG(0.45)">0,45 (std)</button>
+          <button class="btn-icon" onclick="setTG(0.50)">0,50</button>
+          <button class="btn-icon" onclick="setTG(0.55)">0,55</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Mätningskomponenter</div>
+        <div class="card-subtitle">Sätt antal till 0 för poster som inte ingår</div>
+      </div>
+    </div>
+    <table class="matning-table" id="matning-table"></table>
+    <div class="matning-summary">
+      <div class="matning-summary-label">Pris till kund (Mätning total)</div>
+      <div class="matning-summary-val" id="matning-total">0 kr</div>
+    </div>
+  </div>
+
+  <div class="panel-nav">
+    <button class="btn btn-secondary" onclick="switchTab('kund')">← Tillbaka</button>
+    <button class="btn btn-primary" onclick="switchTab('energi')">Nästa: Smart Energikontroll →</button>
+  </div>
+</div>
+
+<!-- ================= STEP 3: SMART ENERGIKONTROLL ================= -->
+<div class="panel" id="panel-energi">
+  <div class="hero">
+    <h1>3. Kalkyl Smart Energikontroll (EBO)</h1>
+    <p>EBO-spåret med Smart Energikontroll. Mätningssumman flödar in automatiskt från steg 2.</p>
+  </div>
+
+  <div class="step-flow">
+    📡 Mätning från steg 2: <strong id="ek-matning-display">0 kr</strong> · 🏠 Antal LGH: <strong id="ek-lgh-display">0</strong> · 💡 Tier: <strong id="ek-tier-display">–</strong>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Tier-val (Avtalstyp)</div>
+      <div class="card-subtitle">Auto-vald baserat på antal LGH – kan ändras</div>
+    </div>
+    <div class="tier-row">
+      <div class="tier" data-tier="small" onclick="selectTier('small')">
+        <div class="tier-name">Small</div>
+        <div class="tier-range">&lt; 20 LGH</div>
+        <div class="tier-price">4 400 kr/år</div>
+      </div>
+      <div class="tier" data-tier="medium" onclick="selectTier('medium')">
+        <div class="tier-name">Medium</div>
+        <div class="tier-range">20–49 LGH</div>
+        <div class="tier-price">8 780 kr/år</div>
+      </div>
+      <div class="tier" data-tier="large" onclick="selectTier('large')">
+        <div class="tier-name">Large</div>
+        <div class="tier-range">50–79 LGH</div>
+        <div class="tier-price">15 700 kr/år</div>
+      </div>
+      <div class="tier" data-tier="xl" onclick="selectTier('xl')">
+        <div class="tier-name">XL</div>
+        <div class="tier-range">≥ 80 LGH</div>
+        <div class="tier-price">23 540 kr/år</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Komponenter</div></div>
+    <table class="matning-table">
+      <thead><tr><th>Produkt</th><th style="width: 80px">Antal</th><th style="width: 100px; text-align:right">À-pris</th><th style="width: 110px; text-align:right">Summa</th></tr></thead>
+      <tbody id="energi-rows"></tbody>
+    </table>
+  </div>
+
+  <div class="summary-box">
+    <div style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.85; margin-bottom: 0.5rem">Smart Energikontroll – Sammanställning</div>
+    <div class="summary-row"><span>Engångskostnader (BOX, sensorer, mätning, tillkommande)</span><span class="val" id="ek-engang">–</span></div>
+    <div class="summary-row"><span>Årskostnad Smart Energikontroll (SaaS)</span><span class="val" id="ek-saas">–</span></div>
+    <div class="summary-row total"><span>Total kostnad år 1</span><span class="val" id="ek-total">–</span></div>
+    <div class="summary-row" style="margin-top: 0.5rem; opacity: 0.95"><span>Bruttobesparing/år</span><span class="val" id="ek-besp">–</span></div>
+    <div class="summary-row"><span>Netto besparing/år (efter SaaS)</span><span class="val" id="ek-netto">–</span></div>
+    <div class="summary-row total" style="border-top-color: var(--gold)"><span>Payoff-tid</span><span class="val" id="ek-payoff">–</span></div>
+  </div>
+
+  <div class="panel-nav">
+    <button class="btn btn-secondary" onclick="switchTab('matning')">← Tillbaka</button>
+    <button class="btn btn-primary" onclick="switchTab('proptech')">Nästa: Proptech BOX →</button>
+  </div>
+</div>
+
+<!-- ================= STEP 4: PROPTECH BOX (BBO) ================= -->
+<div class="panel" id="panel-proptech">
+  <div class="hero">
+    <h1>4. Kalkyl Proptech BOX (BBO)</h1>
+    <p>BBO-spåret (Bravida Building Operation) med Proptech BOX Heat. Lämpligt när kund vill ha eget systemägande.</p>
+  </div>
+
+  <div class="step-flow">
+    📡 Mätning från steg 2: <strong id="pb-matning-display">0 kr</strong>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Komponenter</div></div>
+    <table class="matning-table">
+      <thead><tr><th>Produkt</th><th style="width: 80px">Antal</th><th style="width: 100px; text-align:right">À-pris</th><th style="width: 110px; text-align:right">Summa</th></tr></thead>
+      <tbody id="proptech-rows"></tbody>
+    </table>
+  </div>
+
+  <div class="summary-box">
+    <div style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.85; margin-bottom: 0.5rem">Proptech BOX (BBO) – Sammanställning</div>
+    <div class="summary-row"><span>Lev och installation (engångs)</span><span class="val" id="pb-engang">–</span></div>
+    <div class="summary-row"><span>Årskostnad BBO + Smart Energikontroll</span><span class="val" id="pb-saas">–</span></div>
+    <div class="summary-row"><span>Årskostnad BBO ink. datatrafik</span><span class="val" id="pb-data">–</span></div>
+    <div class="summary-row total"><span>Total kostnad år 1</span><span class="val" id="pb-total">–</span></div>
+    <div class="summary-row" style="margin-top: 0.5rem; opacity: 0.95"><span>Bruttobesparing/år</span><span class="val" id="pb-besp">–</span></div>
+    <div class="summary-row"><span>Netto besparing/år</span><span class="val" id="pb-netto">–</span></div>
+    <div class="summary-row total" style="border-top-color: var(--gold)"><span>Payoff-tid</span><span class="val" id="pb-payoff">–</span></div>
+  </div>
+
+  <div class="panel-nav">
+    <button class="btn btn-secondary" onclick="switchTab('energi')">← Tillbaka</button>
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+      <button class="btn btn-success" onclick="saveCustomer()">💾 Spara i register</button>
+      <button class="btn btn-primary" onclick="switchTab('anbud')">Generera anbud-PDF →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= STEP 5: ANBUD-PDF ================= -->
+<div class="panel" id="panel-anbud">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title" style="font-size: 1rem">5. Anbud-PDF</div>
+        <div class="card-subtitle">Välj vilken kalkyl som ska ligga till grund för anbudet</div>
+      </div>
+    </div>
+    <div class="info-box">
+      <strong>Tips:</strong> Smart Energikontroll-kalkylen passar oftast vid renodlad EBO-försäljning. Proptech BOX (BBO)-kalkylen passar när kunden vill ha eget systemägande.
+    </div>
+    <div class="product-toggle">
+      <div class="product-card selected" id="pdf-source-energi" onclick="selectPdfSource('energi')">
+        <div class="product-card-name">Smart Energikontroll (EBO)</div>
+        <div class="product-card-desc">Anbud baserat på Smart Energikontroll-kalkylen från steg 3</div>
+      </div>
+      <div class="product-card" id="pdf-source-proptech" onclick="selectPdfSource('proptech')">
+        <div class="product-card-name">Proptech BOX (BBO)</div>
+        <div class="product-card-desc">Anbud baserat på Proptech BOX-kalkylen från steg 4</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Bravida-uppgifter</div></div>
+    <div class="grid-3">
+      <div class="field"><label>Säljare</label><input type="text" id="b-namn" value="Jonis Awad" oninput="renderPDF()"></div>
+      <div class="field"><label>Telefon</label><input type="text" id="b-tel" placeholder="070-872 17 83" oninput="renderPDF()"></div>
+      <div class="field"><label>E-post</label><input type="text" id="b-epost" value="jonis.awad@bravida.se" oninput="renderPDF()"></div>
+      <div class="field"><label>Bravida-kontor</label><input type="text" id="b-ort" placeholder="Eskilstuna" oninput="renderPDF()"></div>
+      <div class="field"><label>Anbudsdatum</label><input type="date" id="b-datum" oninput="renderPDF()"></div>
+      <div class="field"><label>Giltig (dagar)</label>
+        <select id="b-giltig" onchange="renderPDF()">
+          <option value="30">30 dagar</option>
+          <option value="60">60 dagar</option>
+          <option value="90">90 dagar</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="pdf-actions">
+    <div style="font-size: 0.85rem; color: var(--muted)">
+      <strong style="color: var(--brv-darkblue)">Tips:</strong> Använd Chrome eller Edge. Aktivera "Bakgrundsgrafik" i utskriftsdialogen.
+    </div>
+    <button class="btn btn-primary" onclick="window.print()">📄 Ladda ner PDF</button>
+  </div>
+
+  <div class="pdf-preview" id="pdf-preview"></div>
+</div>
+
+<!-- ================= STEP 6: REGISTER ================= -->
+<div class="panel" id="panel-register">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title" style="font-size: 1rem">Kundregister</div>
+        <div class="card-subtitle">Alla räknade kunder och deras status</div>
+      </div>
+      <button class="btn-icon" onclick="exportRegister()">⬇ Exportera CSV</button>
+    </div>
+    <div id="register-content"></div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ============================================
+// PRICES from Långshyttan kalkyl-BBO-v2.73
+// ============================================
+const PRICES = {
+  // Proptech / BOX
+  boxHeat: 48300,                       // Proptech BOX Heat ink 5 givare
+  boxGW: 41895,                         // Proptech BOX GW 5 Givare (alternativ)
+  installation: 4800,                   // Installation Proptech BOX Heat
+  installationAI: 8900,                 // Installation AI
+  startpaket5: 8500,                    // Startpaket 5st rumsgivare
+  startpaket5EBO: 11900,                // Startpaket 5st rumsgivare EBO
+  tillkommandeGivare: 1249,             // Tillkommande rumsgivare
+  smartConnector: 15000,
+  smartUnder70kW: 4900,                 // Smart Energikontroll EBO < 70kW med BOX
+
+  // Mätning - sensorer & utrustning
+  sensors: {
+    insamling128LTE: 13297,             // Connect LTE-M M-Bus 128 mätare (kostpris)
+    insamling128: 11690,                // Connect M-Bus 128 mätare
+    insamling32LTE: 10850,
+    insamling32: 9730,
+    tempSensor: 472,                    // MTW-1A wireless temp (kostpris från SensorPriser)
+    tempFuktSensor: 577,                // MTHW1-A
+    elmatareDIN: 2610,
+    elmatarePanel: 1557,
+    elmatareTrafo: 3390,
+    antennUtomhus: 1607,                // ANT04 + 15M kabel
+    antennInomhus: 577,                 // ANT05 fasadantenn
+    repeaterInomhus: 3570,              // REP03
+    repeaterUtomhus: 4148,              // REP02
+    simKort: 2517,                      // 5 år 10GB
+  },
+
+  // Tjänster
+  elinstallation: 12000,                // 8 timmar
+  scadaIntegration: 5000,
+  installationsmaterial: 1500,
+
+  // Smart Energikontroll - tier årskostnader (rekommenderat pris)
+  tiers: {
+    small:  { name: 'Small',  range: '< 20 LGH',     yearly: 4400,  cost: 2200,  max: 19 },
+    medium: { name: 'Medium', range: '20–49 LGH',    yearly: 8780,  cost: 4390,  min: 20, max: 49 },
+    large:  { name: 'Large',  range: '50–79 LGH',    yearly: 15700, cost: 7850,  min: 50, max: 79 },
+    xl:     { name: 'XL',     range: '≥ 80 LGH',     yearly: 23540, cost: 11770, min: 80 }
+  },
+
+  // BBO/Uppkoppling
+  bboSystem: 450,                       // BBO System (per system)
+  modem4G: 3450,                        // 4G Modem Bravida
+  vpnIpsec: 4900,
+  vpnOpen: 3500,
+  bboData: 3900,                        // Pris till kund/år för BBO ink datatrafik
+  driftkost: 3349,                      // Driftkostnader ink. Datatrafik (3GB)
+  webportBilder: 950,
+  vpn: 4900,
+};
+
+// Mätning items (with default qty)
+const MATNING_ITEMS = [
+  { id: 'insamling', label: 'Typ av insamlingsenhet', desc: 'Connect LTE-M M-Bus kapsling 128 mätare', cost: 13297, qty: 1, group: 'utrustning' },
+  { id: 'tempsensor', label: 'Temp sensor', desc: 'Temperatursensor (auto = antal LGH)', cost: 472, qty: 0, group: 'utrustning', autoLgh: true },
+  { id: 'tempfukt', label: 'Temp & fukt sensor', desc: 'Temperatur och fukt sensor', cost: 577, qty: 0, group: 'utrustning' },
+  { id: 'elmatare-din', label: 'Elmätare (DIN)', desc: 'Elmätare trådlös M-Bus DIN-montage', cost: 2610, qty: 0, group: 'utrustning' },
+  { id: 'elmatare-panel', label: 'Elmätare (Panel)', desc: 'Elmätare panelmontage / mätarskåp', cost: 1557, qty: 0, group: 'utrustning' },
+  { id: 'elmatare-trafo', label: 'Elmätare (Trafo)', desc: 'Elmätare för trafomätning', cost: 3390, qty: 0, group: 'utrustning' },
+  { id: 'antenn-utomhus', label: 'Antenn utomhus', desc: 'Antenn utomhus 43dBi inkl. 15m kabel', cost: 1607, qty: 1, group: 'utrustning' },
+  { id: 'antenn-inomhus', label: 'Antenn inomhus', desc: 'Fasadantenn för inomhusbruk', cost: 577, qty: 0, group: 'utrustning' },
+  { id: 'repeater-inomhus', label: 'Repeater inomhus', desc: 'Repeater 230V med inbyggd antenn', cost: 3570, qty: 0, group: 'utrustning' },
+  { id: 'repeater-utomhus', label: 'Repeater utomhus', desc: 'Repeater 230V extern antenn', cost: 4148, qty: 0, group: 'utrustning' },
+  { id: 'sim', label: 'Sim-kort', desc: 'Sim-kort 10GB, 5 år förbetalt', cost: 2517, qty: 0, group: 'utrustning' },
+  { id: 'elinstall', label: 'Elinstallation', desc: 'Kostnad för elinstallation (~8 tim)', cost: 12000, qty: 1, group: 'tjanst', isFlat: true },
+  { id: 'scada', label: 'SCADA/BMS-integration', desc: 'Integration mot överordnat system', cost: 5000, qty: 1, group: 'tjanst', isFlat: true },
+  { id: 'installmaterial', label: 'Installationsmaterial', desc: 'Kabel, fästmaterial m.m.', cost: 1500, qty: 1, group: 'tjanst', isFlat: true },
+];
+
+// State
+let matningState = MATNING_ITEMS.map(i => ({ ...i }));
+let currentTier = null;
+let currentTierAuto = true;
+let pdfSource = 'energi';
+let customers = [];
+
+try {
+  const saved = localStorage.getItem('bravida-proptech-customers-v2');
+  if (saved) customers = JSON.parse(saved);
+} catch(e) {}
+
+// ============================================
+// HELPERS
+// ============================================
+function fmt(n) {
+  if (!n && n !== 0) return '–';
+  if (isNaN(n)) return '–';
+  return Math.round(n).toLocaleString('sv-SE');
+}
+function fmtKr(n) { return fmt(n) + ' kr'; }
+function fmtDecimal(n, d = 2) {
+  if (!n && n !== 0) return '–';
+  return n.toFixed(d).replace('.', ',');
+}
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// ============================================
+// TABS
+// ============================================
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${name}"]`).classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+  if (name === 'matning') renderMatning();
+  if (name === 'energi') renderEnergi();
+  if (name === 'proptech') renderProptech();
+  if (name === 'anbud') renderPDF();
+  if (name === 'register') renderRegister();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================
+// CALCULATIONS
+// ============================================
+function getEnergyData() {
+  const totalKwh = parseFloat(document.getElementById('data-totalkwh').value) || 0;
+  const totalKr = parseFloat(document.getElementById('data-totalkr').value) || 0;
+  const vvMonth = parseFloat(document.getElementById('data-vvmonth').value) || 0;
+  const pct = parseFloat(document.getElementById('data-pct').value) || 15;
+  const antalLgh = parseInt(document.getElementById('data-antal-lgh').value) || 0;
+  const vvYear = vvMonth * 12;
+  const varmeKwh = Math.max(0, totalKwh - vvYear);
+  const prisKwh = totalKwh > 0 ? (totalKr / totalKwh) : 0;
+  const besparingKwh = varmeKwh * (pct / 100);
+  const besparingKr = besparingKwh * prisKwh;
+  return { totalKwh, totalKr, vvMonth, vvYear, pct, antalLgh, varmeKwh, prisKwh, besparingKwh, besparingKr };
+}
+
+function autoTierByLgh(lgh) {
+  if (!lgh) return null;
+  if (lgh < 20) return 'small';
+  if (lgh < 50) return 'medium';
+  if (lgh < 80) return 'large';
+  return 'xl';
+}
+
+function onChange() {
+  const D = getEnergyData();
+  // Auto-update tempsensor count from antal LGH
+  const tempItem = matningState.find(m => m.id === 'tempsensor');
+  if (tempItem && tempItem.autoLgh && D.antalLgh) {
+    if (tempItem.qty === 0 || !tempItem.userSet) {
+      tempItem.qty = D.antalLgh;
+    }
+  }
+  // Auto-tier
+  if (currentTierAuto) {
+    const t = autoTierByLgh(D.antalLgh);
+    if (t) currentTier = t;
+  }
+  // KPIs
+  document.getElementById('kpi-varme').textContent = fmt(D.varmeKwh);
+  document.getElementById('kpi-pris').textContent = D.prisKwh > 0 ? fmtDecimal(D.prisKwh) : '–';
+  document.getElementById('kpi-besparing').textContent = fmt(D.besparingKr);
+  document.getElementById('kpi-tier').textContent = currentTier ? PRICES.tiers[currentTier].name : '–';
+  // Refresh dependent panels if visible
+  if (document.getElementById('panel-matning').classList.contains('active')) renderMatning();
+  if (document.getElementById('panel-energi').classList.contains('active')) renderEnergi();
+  if (document.getElementById('panel-proptech').classList.contains('active')) renderProptech();
+}
+
+// ============================================
+// MÄTNING TABLE
+// ============================================
+function setTG(v) {
+  document.getElementById('m-tg').value = v.toFixed(2);
+  renderMatning();
+}
+
+function getTG() {
+  return parseFloat(document.getElementById('m-tg').value) || 0.45;
+}
+
+function calcMatningPrice(item) {
+  // Recommendation price = cost / TG (according to Excel formula pattern)
+  const tg = getTG();
+  if (item.isFlat) {
+    // For flat items (elinstall, scada, material) it's qty × cost/TG
+    return (item.cost / tg);
+  }
+  return item.qty * (item.cost / tg);
+}
+
+function getMatningTotal() {
+  const tg = getTG();
+  let total = 0;
+  matningState.forEach(item => {
+    if (item.isFlat) {
+      total += item.qty > 0 ? (item.cost / tg) : 0;
+    } else {
+      total += item.qty * (item.cost / tg);
+    }
+  });
+  return total;
+}
+
+function renderMatning() {
+  const D = getEnergyData();
+  const tg = getTG();
+  const table = document.getElementById('matning-table');
+  let html = `
+    <thead>
+      <tr>
+        <th>Produkt / tjänst</th>
+        <th style="width: 100px">Antal</th>
+        <th style="width: 110px; text-align:right">Kostpris</th>
+        <th style="width: 110px; text-align:right">À-pris (TG)</th>
+        <th style="width: 130px; text-align:right">Summa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="section-header"><td colspan="5">Utrustning (sensorer, antenner, repeaters)</td></tr>
+  `;
+  matningState.filter(i => i.group === 'utrustning').forEach(item => {
+    const pris = item.cost / tg;
+    const summa = item.qty * pris;
+    html += `
+      <tr>
+        <td class="col-prod">${escapeHTML(item.label)}<div class="col-prod-desc">${escapeHTML(item.desc)}</div></td>
+        <td class="col-antal"><input type="number" value="${item.qty}" min="0" onchange="updateMatningQty('${item.id}', this.value)"></td>
+        <td class="col-pris">${fmt(item.cost)}</td>
+        <td class="col-pris">${fmt(pris)}</td>
+        <td class="col-summa">${fmt(summa)} kr</td>
+      </tr>
+    `;
+  });
+  html += `<tr class="section-header"><td colspan="5">Tjänster & material</td></tr>`;
+  matningState.filter(i => i.group === 'tjanst').forEach(item => {
+    const pris = item.cost / tg;
+    const summa = item.qty > 0 ? pris : 0;
+    html += `
+      <tr>
+        <td class="col-prod">${escapeHTML(item.label)}<div class="col-prod-desc">${escapeHTML(item.desc)}</div></td>
+        <td class="col-antal"><input type="number" value="${item.qty}" min="0" max="1" onchange="updateMatningQty('${item.id}', this.value)"></td>
+        <td class="col-pris">${fmt(item.cost)}</td>
+        <td class="col-pris">${fmt(pris)}</td>
+        <td class="col-summa">${fmt(summa)} kr</td>
+      </tr>
+    `;
+  });
+  const total = getMatningTotal();
+  html += `
+      <tr class="total">
+        <td colspan="4"><strong>PRIS TILL KUND (Mätning total)</strong></td>
+        <td class="col-summa">${fmt(total)} kr</td>
+      </tr>
+    </tbody>
+  `;
+  table.innerHTML = html;
+  document.getElementById('matning-total').textContent = fmt(total) + ' kr';
+}
+
+function updateMatningQty(id, val) {
+  const item = matningState.find(i => i.id === id);
+  if (item) {
+    item.qty = parseFloat(val) || 0;
+    item.userSet = true;
+  }
+  renderMatning();
+}
+
+// ============================================
+// SMART ENERGIKONTROLL (EBO) PANEL
+// ============================================
+function selectTier(t) {
+  currentTier = t;
+  currentTierAuto = false;
+  renderEnergi();
+}
+
+function renderEnergi() {
+  const D = getEnergyData();
+  const matning = getMatningTotal();
+  const tg = getTG();
+
+  // Display refs
+  document.getElementById('ek-matning-display').textContent = fmt(matning) + ' kr';
+  document.getElementById('ek-lgh-display').textContent = D.antalLgh || '–';
+
+  // Tier
+  document.querySelectorAll('#panel-energi .tier').forEach(el => {
+    el.classList.remove('selected', 'recommended');
+  });
+  if (currentTier) {
+    const el = document.querySelector(`#panel-energi .tier[data-tier="${currentTier}"]`);
+    if (el) el.classList.add('selected');
+    if (currentTierAuto) el?.classList.add('recommended');
+    document.getElementById('ek-tier-display').textContent = PRICES.tiers[currentTier].name;
+  } else {
+    document.getElementById('ek-tier-display').textContent = '–';
+  }
+
+  // Components
+  const tier = currentTier ? PRICES.tiers[currentTier] : null;
+  const smartEngangPris = (PRICES.startpaket5EBO / tg) || PRICES.startpaket5EBO;
+  // Per Excel: "Antal Smart Energikontroll" rec pris = 4615 (kost 3000), Insamling = matning, Årskost = 23540 etc
+
+  const rows = [
+    { label: 'EBO – Smart Energikontroll (engångskostnad)', desc: 'Startpaket inkl. konfiguration', qty: 1, pris: 11900 / tg, summa: 11900 / tg, type: 'engang' },
+    { label: 'Insamlingsenhet, sensorer m.m.', desc: 'Från Mätning-fliken (steg 2)', qty: 1, pris: matning, summa: matning, type: 'engang', readonly: true },
+    { label: 'Tillkommande funktioner / produkter / lösningar', desc: 'T.ex. kontaktormotorlåda, ställdon (frivillig)', qty: 1, pris: 0, summa: 0, type: 'engang', editable: 'tillkommande' },
+    { label: `Årskostnad Smart Energikontroll ${tier ? '(' + tier.name + ')' : ''}`, desc: 'Återkommande SaaS-avgift', qty: 1, pris: tier ? tier.yearly : 0, summa: tier ? tier.yearly : 0, type: 'arskost' },
+  ];
+
+  let html = '';
+  let engang = 0, saas = 0;
+  rows.forEach((row, i) => {
+    if (row.type === 'engang') engang += row.summa;
+    if (row.type === 'arskost') saas += row.summa;
+    const editTillkommande = row.editable === 'tillkommande'
+      ? `<input type="number" id="ek-tillkommande" value="${getTillkommande()}" placeholder="0" onchange="setTillkommande(this.value)" style="width:100%; padding:4px 8px; border:1px solid var(--border); border-radius:4px;">`
+      : `<span style="color:var(--muted)">${fmt(row.pris)}</span>`;
+    html += `
+      <tr>
+        <td class="col-prod">${escapeHTML(row.label)}<div class="col-prod-desc">${escapeHTML(row.desc)}</div></td>
+        <td class="col-antal" style="text-align:center">${row.qty || '–'}</td>
+        <td class="col-pris">${row.editable ? editTillkommande : fmt(row.pris)}</td>
+        <td class="col-summa">${fmt(row.editable === 'tillkommande' ? getTillkommande() : row.summa)} kr</td>
+      </tr>
+    `;
+  });
+  document.getElementById('energi-rows').innerHTML = html;
+
+  // Add tillkommande to engang
+  engang += getTillkommande();
+
+  const total1 = engang + saas;
+  const netto = D.besparingKr - saas;
+  const payoff = netto > 0 ? (total1 / netto) : 0;
+
+  document.getElementById('ek-engang').textContent = fmt(engang) + ' kr';
+  document.getElementById('ek-saas').textContent = fmt(saas) + ' kr/år';
+  document.getElementById('ek-total').textContent = fmt(total1) + ' kr';
+  document.getElementById('ek-besp').textContent = fmt(D.besparingKr) + ' kr/år';
+  document.getElementById('ek-netto').textContent = fmt(netto) + ' kr/år';
+  document.getElementById('ek-payoff').textContent = payoff > 0 ? payoff.toFixed(1) + ' år' : '–';
+}
+
+let _tillkommande = 0;
+function getTillkommande() { return _tillkommande; }
+function setTillkommande(v) { _tillkommande = parseFloat(v) || 0; renderEnergi(); }
+
+// ============================================
+// PROPTECH BOX (BBO) PANEL
+// ============================================
+function renderProptech() {
+  const D = getEnergyData();
+  const matning = getMatningTotal();
+  const tg = getTG();
+  const tier = currentTier ? PRICES.tiers[currentTier] : null;
+
+  document.getElementById('pb-matning-display').textContent = fmt(matning) + ' kr';
+
+  // From Excel: 
+  // Proptech BOX Heat ink. Smart Energikontroll: rec = 38709, kost = 24000
+  // Insamlingsenhet sensorer: from matning
+  // Årskostnad BBO med Smart Energikontroll: rec = 23540, kost = 11770 (= XL tier)
+  // Årskostnad BBO ink datatrafik: rec = 3900, kost = 2535
+
+  const boxBBOprice = 24000 / tg; // ~38709
+  const arsBBO = tier ? tier.yearly : 23540;
+  const arsBBOdata = 3900;
+
+  const rows = [
+    { label: 'Proptech BOX Heat ink. Smart Energikontroll', desc: 'Komplett BOX för BBO-anslutning', qty: 1, pris: boxBBOprice, summa: boxBBOprice, type: 'engang' },
+    { label: 'Insamlingsenhet, sensorer m.m.', desc: 'Från Mätning-fliken (steg 2)', qty: 1, pris: matning, summa: matning, type: 'engang' },
+    { label: `Årskostnad BBO + Smart Energikontroll ${tier ? '(' + tier.name + ')' : ''}`, desc: 'Smart Energikontroll-avgift (samma som EBO-tier)', qty: 1, pris: arsBBO, summa: arsBBO, type: 'arskost' },
+    { label: 'Årskostnad BBO ink. datatrafik', desc: 'BBO-licens + 4G/VPN-kommunikation', qty: 1, pris: arsBBOdata, summa: arsBBOdata, type: 'arskost' },
+  ];
+
+  let html = '';
+  let engang = 0, arskost = 0, dataKost = 0;
+  rows.forEach(row => {
+    if (row.type === 'engang') engang += row.summa;
+    if (row.type === 'arskost') arskost += row.summa;
+    html += `
+      <tr>
+        <td class="col-prod">${escapeHTML(row.label)}<div class="col-prod-desc">${escapeHTML(row.desc)}</div></td>
+        <td class="col-antal" style="text-align:center">${row.qty}</td>
+        <td class="col-pris">${fmt(row.pris)}</td>
+        <td class="col-summa">${fmt(row.summa)} kr</td>
+      </tr>
+    `;
+  });
+  document.getElementById('proptech-rows').innerHTML = html;
+
+  const total1 = engang + arskost;
+  const netto = D.besparingKr - arskost;
+  const payoff = netto > 0 ? (total1 / netto) : 0;
+
+  document.getElementById('pb-engang').textContent = fmt(engang) + ' kr';
+  document.getElementById('pb-saas').textContent = fmt(arsBBO) + ' kr/år';
+  document.getElementById('pb-data').textContent = fmt(arsBBOdata) + ' kr/år';
+  document.getElementById('pb-total').textContent = fmt(total1) + ' kr';
+  document.getElementById('pb-besp').textContent = fmt(D.besparingKr) + ' kr/år';
+  document.getElementById('pb-netto').textContent = fmt(netto) + ' kr/år';
+  document.getElementById('pb-payoff').textContent = payoff > 0 ? payoff.toFixed(1) + ' år' : '–';
+}
+
+// ============================================
+// PDF
+// ============================================
+function selectPdfSource(s) {
+  pdfSource = s;
+  document.querySelectorAll('.product-card').forEach(el => el.classList.remove('selected'));
+  document.getElementById('pdf-source-' + s).classList.add('selected');
+  renderPDF();
+}
+
+function renderPDF() {
+  const D = getEnergyData();
+  const matning = getMatningTotal();
+  const tg = getTG();
+  const tier = currentTier ? PRICES.tiers[currentTier] : null;
+
+  const kund = document.getElementById('kund-namn').value;
+  const kontakt = document.getElementById('kund-kontakt').value;
+  const adress = document.getElementById('kund-adress').value;
+  const ort = document.getElementById('kund-ort').value;
+  const bNamn = document.getElementById('b-namn').value;
+  const bTel = document.getElementById('b-tel').value;
+  const bEpost = document.getElementById('b-epost').value;
+  const bOrt = document.getElementById('b-ort').value;
+  const bDatum = document.getElementById('b-datum').value || new Date().toISOString().split('T')[0];
+  const bGiltig = parseInt(document.getElementById('b-giltig').value || 30);
+
+  const giltigDate = new Date(bDatum);
+  giltigDate.setDate(giltigDate.getDate() + bGiltig);
+  const giltigStr = giltigDate.toISOString().split('T')[0];
+
+  const preview = document.getElementById('pdf-preview');
+  if (!kund || !D.totalKwh) {
+    preview.innerHTML = '<div class="empty-state"><p>Fyll i kund + fjärrvärmedata på steg 1 först.</p></div>';
+    return;
+  }
+
+  // Calculate based on source
+  let engang, arskost, total1, productName, productSub, prodLines;
+  if (pdfSource === 'energi') {
+    productName = 'Smart Energikontroll (EBO)';
+    productSub = 'Smart Energikontroll med trådlösa rumsgivare';
+    const ekStart = 11900 / tg;
+    engang = ekStart + matning + getTillkommande();
+    arskost = tier ? tier.yearly : 0;
+    total1 = engang + arskost;
+    prodLines = [
+      { label: 'EBO – Smart Energikontroll (engångskostnad)', val: ekStart },
+      { label: 'Insamlingsenhet, sensorer m.m. (Mätning)', val: matning },
+    ];
+    if (getTillkommande() > 0) prodLines.push({ label: 'Tillkommande funktioner', val: getTillkommande() });
+    if (tier) prodLines.push({ label: `Årskostnad Smart Energikontroll ${tier.name}`, val: tier.yearly, suffix: '/år' });
+  } else {
+    productName = 'Proptech BOX Heat (BBO)';
+    productSub = 'Bravida Building Operation med Smart Energikontroll';
+    const boxBBO = 24000 / tg;
+    const arsBBO = tier ? tier.yearly : 23540;
+    const arsData = 3900;
+    engang = boxBBO + matning;
+    arskost = arsBBO + arsData;
+    total1 = engang + arskost;
+    prodLines = [
+      { label: 'Proptech BOX Heat ink. Smart Energikontroll', val: boxBBO },
+      { label: 'Insamlingsenhet, sensorer m.m. (Mätning)', val: matning },
+      { label: `Årskostnad BBO + Smart Energikontroll ${tier ? '(' + tier.name + ')' : ''}`, val: arsBBO, suffix: '/år' },
+      { label: 'Årskostnad BBO ink. datatrafik', val: arsData, suffix: '/år' },
+    ];
+  }
+
+  const netto = D.besparingKr - arskost;
+  const payoff = netto > 0 ? (total1 / netto) : 0;
+
+  const star = `<svg class="brv-logo-svg" viewBox="0 0 100 100"><path fill="#7DD4B0" d="M50 0 C50 28 28 50 0 50 C28 50 50 72 50 100 C50 72 72 50 100 50 C72 50 50 28 50 0 Z"/></svg>`;
+  const starBig = `<svg class="brv-cover-star" viewBox="0 0 100 100"><path fill="#7DD4B0" d="M50 0 C50 28 28 50 0 50 C28 50 50 72 50 100 C50 72 72 50 100 50 C72 50 50 28 50 0 Z"/></svg>`;
+  const starBigLogo = `<svg class="brv-logo-svg-big" viewBox="0 0 100 100"><path fill="#7DD4B0" d="M50 0 C50 28 28 50 0 50 C28 50 50 72 50 100 C50 72 72 50 100 50 C72 50 50 28 50 0 Z"/></svg>`;
+
+  const headerHTML = (page, total) => `
+    <div class="brv-header">
+      <div class="brv-logo-row">${star}<span class="brv-logo-text">bravida</span></div>
+      <div class="brv-refblock"><span>Ref.nr:</span><span>${page} (${total})</span></div>
+    </div>
+  `;
+  const footerHTML = `
+    <div class="brv-footer">
+      <div class="brv-footer-fskat">Innehar F-skattesedel</div>
+      <div class="brv-footer-cols">
+        <div>www.bravida.se</div>
+        <div>Besöksadress:</div>
+        <div>Tfn:<br>Fax:</div>
+        <div>Säte:<br>Stockholm</div>
+        <div>Org.nummer:</div>
+      </div>
+    </div>
+  `;
+
+  const totalPages = 5;
+  let html = '';
+
+  // PAGE 1: COVER
+  html += `
+    <div class="brv-page">
+      <div class="brv-cover-addr">
+        ${kund ? `<strong>${escapeHTML(kund)}</strong>` : ''}
+        ${kontakt ? escapeHTML(kontakt) + '<br>' : ''}
+        ${adress ? escapeHTML(adress) + '<br>' : ''}
+        ${ort ? escapeHTML(ort) : ''}
+      </div>
+      ${starBig}
+      <div class="brv-cover-box"></div>
+      <div class="brv-cover-inner">
+        <div style="font-size: 12pt; color: var(--brv-blue); font-weight: 700; margin-bottom: 6mm; letter-spacing: 0.06em">BRAVIDA</div>
+        <div class="brv-cover-title">${pdfSource === 'energi' ? 'Smart Energikontroll' : 'Proptech Box HEAT'}</div>
+        <div class="brv-cover-undertitle">${escapeHTML(productSub)}</div>
+        <div class="brv-cover-sub">
+          <div><strong>${escapeHTML(kund)}</strong></div>
+          ${adress ? `<div>${escapeHTML(adress)}${ort ? ', ' + escapeHTML(ort) : ''}</div>` : ''}
+          <div>Datum: ${bDatum}</div>
+        </div>
+      </div>
+      <div class="brv-cover-footer">
+        <div class="brv-vision-block">
+          <div class="brv-vision-title">Vår vision</div>
+          Bravida gör det möjligt för kunderna att utveckla fastigheters fulla potential. Genom service och installation ger vi fastigheter liv – och leder vägen mot ett hållbart och motståndskraftigt samhälle
+        </div>
+        <div class="brv-logo-big">${starBigLogo}<span class="brv-logo-text-big">bravida</span></div>
+      </div>
+    </div>
+  `;
+
+  // PAGE 2: INTRO + OMFATTNING
+  html += `
+    <div class="brv-page"><div class="brv-page-inner">
+      ${headerHTML(2, totalPages)}
+      <h1 class="brv-h1">Prisförslag avseende ${escapeHTML(productName)}</h1>
+      <p class="brv-p">Vi tackar för Erat förtroende och erbjuder oss härmed att utföra rubricerat arbete i enlighet med detta pris.</p>
+
+      <h2 class="brv-h2">Omfattning</h2>
+      <p class="brv-p">Demontering av befintlig Styr- och reglercentral samt installation av Bravida ${escapeHTML(productName)}.</p>
+      <p class="brv-p">Anslutning av Fjärrvärmemätare via M-Bus förutsatt att extra plats finns i Energimängdsmätaren.</p>
+      <p class="brv-p">Lösningen levereras med trådlösa inomhusgivare (${matningState.find(m=>m.id==='tempsensor').qty} st) med möjlighet till komplettering.</p>
+      <p class="brv-p">I grundpriset förutsätts att det går att återanvända befintliga temperaturgivare och ställdon.</p>
+      <p class="brv-p">Konfiguration av funktion samt driftsättning av anläggningen och uppkoppling till Bravidas överordnade system.</p>
+
+      <h2 class="brv-h2">Förutsättningar</h2>
+      <ul class="brv-ul">
+        <li>Tillträde till fjärrvärmecentral / teknikutrymme tillhandahålls kostnadsfritt.</li>
+        <li>Förbrukning av el och vatten under installationen tillhandahålls kostnadsfritt.</li>
+        <li>Befintliga givare och ställdon förutsätts vara funktionsdugliga.</li>
+        <li>Index: 3021-25 Teknikinstallationsavtalet.</li>
+      </ul>
+      ${footerHTML}
+    </div></div>
+  `;
+
+  // PAGE 3: BESPARINGSKALKYL
+  const ar = document.getElementById('data-ar').value || '2026';
+  html += `
+    <div class="brv-page"><div class="brv-page-inner">
+      ${headerHTML(3, totalPages)}
+      <h2 class="brv-h2" style="font-size: 15pt; margin-top: 0">BESPARINGSKALKYL / PAYOFF PER ÅR</h2>
+
+      <p class="brv-p">Vid vårt besök presenterades aktuella fjärrvärmefakturor vilka redogjorde för en energiförbrukning om cirka <strong>${fmt(D.totalKwh)} kWh</strong> per år, och det till en kostnad om cirka <strong>${fmt(D.totalKr)} kr</strong> vilket gör <strong>${fmtDecimal(D.prisKwh)} kr/kWh</strong> år ${ar}.</p>
+
+      <p class="brv-p">Vi har med hjälp utav senaste fakturorna uppskattat att cirka <strong>${fmt(D.vvMonth)} kWh/månad</strong>, ca <strong>${fmt(D.vvYear)} kWh</strong> per år utgör energi till tappvarmvatten och tappvarmvattencirkulation.</p>
+
+      <p class="brv-p">Detta skulle innebära att <strong>${fmt(D.varmeKwh)} kWh</strong> Fjärrvärme är till värmesystemet.</p>
+
+      <p class="brv-p">I nedan exempel när vi kalkylerar avbetalningstiden på ${escapeHTML(productName)} har vi antagit att det går att spara ca <strong>${D.pct}%</strong> av era aktuella ${fmt(D.varmeKwh)} kWh/år.</p>
+
+      ${D.antalLgh ? `<p class="brv-p"><strong>${parseFloat(document.getElementById('data-boa').value || 0) > 0 ? fmt(parseFloat(document.getElementById('data-boa').value)) + ' m² BOA/LOA fördelat på ' : ''}${D.antalLgh}</strong> bostäder.</p>` : ''}
+
+      <div style="margin: 4mm 0 5mm 0">
+        <div>Antagen inomhustemperatur: <strong>+${document.getElementById('data-temp').value || 22}°C</strong></div>
+        ${document.getElementById('data-effekt').value ? `<div>Värmeeffekt Undercentral: <strong>${document.getElementById('data-effekt').value} kW</strong></div>` : ''}
+        <div>Energiuttag Värme: <strong>${fmt(D.varmeKwh)} kWh</strong></div>
+        <div>Energiuttag Tappvarmvatten + VVC: <strong>${fmt(D.vvYear)} kWh</strong></div>
+        <div>Energipris ${ar}: <strong>${fmtDecimal(D.prisKwh)} kr/kWh</strong></div>
+      </div>
+
+      <div class="brv-besparing-box">
+        <div class="brv-besparing-label">Uppskattad analyserad besparing:</div>
+        <div class="brv-besparing-value">Ca ${fmt(D.besparingKr)} kr per år.</div>
+        <div class="brv-besparing-formula">${fmt(D.varmeKwh)} kWh × ${D.pct}% × ${fmtDecimal(D.prisKwh)} kr/kWh</div>
+      </div>
+
+      ${arskost > 0 ? `
+        <p class="brv-p">Avgår årlig SaaS-kostnad: <strong>${fmt(arskost)} kr/år</strong></p>
+        <p class="brv-p"><strong>Netto besparing: ${fmt(netto)} kr/år</strong></p>
+      ` : ''}
+
+      <div class="brv-payoff">Avbetalningstiden är beräknad till cirka ${payoff.toFixed(1)} år.</div>
+      <div style="font-size: 9pt; font-style: italic; margin-top: 2mm">(Total investering år 1: ${fmt(total1)} kr inkl. installation och första årets SaaS-avgift)</div>
+
+      ${footerHTML}
+    </div></div>
+  `;
+
+  // PAGE 4: PRIS
+  let priceHTML = '';
+  prodLines.forEach(line => {
+    priceHTML += `
+      <div class="brv-price-row">
+        <div class="brv-price-label">${escapeHTML(line.label)}</div>
+        <div class="brv-price-val">${fmt(line.val)} kr${line.suffix || ''}</div>
+      </div>
+    `;
+  });
+
+  html += `
+    <div class="brv-page"><div class="brv-page-inner">
+      ${headerHTML(4, totalPages)}
+      <h2 class="brv-h2" style="margin-top: 0">Prisredovisning</h2>
+      <p class="brv-p">Arbeten enligt detta prisförslag utförs mot ett pris om:</p>
+
+      <div style="margin: 3mm 0 5mm 0">
+        ${priceHTML}
+        <div class="brv-price-row" style="border-top: 1px solid var(--brv-text); padding-top: 2mm; margin-top: 2mm">
+          <div class="brv-price-label" style="font-weight: 700">TOTAL SUMMA år 1 (exkl. moms):</div>
+          <div class="brv-price-val" style="font-weight: 700; font-size: 12pt">${fmt(total1)} kr</div>
+        </div>
+      </div>
+
+      <p class="brv-p">Gällande mervärdesskatt tillkommer och debiteras vid varje faktureringstillfälle.</p>
+
+      <h2 class="brv-h2">Förtydliganden</h2>
+      <p class="brv-p">I vårt pris ingår ej:</p>
+      <ul class="brv-ul">
+        <li>Hantering och deponering av miljöfarligt avfall.</li>
+        <li>Eventuella extra kostnader för kommunikationskort till fjärrvärmemätare.</li>
+        <li>Servis-, abonnemangs- och anslutningsavgifter.</li>
+      </ul>
+
+      <h2 class="brv-h2">Betalningsvillkor</h2>
+      <p class="brv-p">Enligt betalningsplan. ÄTA-arbeten faktureras löpande, betalning 30 dagar netto.</p>
+
+      <h2 class="brv-h2">Kvalitet och miljö</h2>
+      <p class="brv-p">Bravida Sverige AB är kvalitets- och miljöcertifierade enligt ISO 9001 och 14001.</p>
+
+      ${footerHTML}
+    </div></div>
+  `;
+
+  // PAGE 5: KONTAKT + SIGNATUR
+  html += `
+    <div class="brv-page"><div class="brv-page-inner">
+      ${headerHTML(5, totalPages)}
+      <h2 class="brv-h2" style="margin-top: 0">Förfrågningar</h2>
+      <p class="brv-p">Förfrågningar angående detta prisförslag besvaras av:</p>
+      <p class="brv-p">
+        <strong>${escapeHTML(bNamn)}</strong><br>
+        ${bTel ? 'Telefon: ' + escapeHTML(bTel) + '<br>' : ''}
+        ${bEpost ? 'E-post: ' + escapeHTML(bEpost) : ''}
+      </p>
+
+      <p class="brv-p">Detta prisförslag är giltigt t o m ${giltigStr}. Förändringar och tillägg skall upprättas skriftligen för att vara bindande.</p>
+
+      <h2 class="brv-h2">Övrigt</h2>
+      <p class="brv-p">Handlingar, förslag till förenklingar eller förbättringar är Bravida Sverige AB:s egendom och får enligt lagen om upphovsmannarätt ej kommersiellt användas, plagieras eller eljest användas utan vårt skriftliga godkännande.</p>
+
+      <h2 class="brv-h2">Serviceavtal</h2>
+      <p class="brv-p">Vi erbjuder er även att teckna serviceavtal enligt Bravidas Servicekoncept för denna anläggning.</p>
+
+      <div style="margin-top: 12mm">
+        <p class="brv-p">Med vänlig hälsning<br><strong>Bravida Sverige AB</strong><br>${escapeHTML(bOrt)}</p>
+        <div style="margin: 8mm 0 1mm 0" class="signature-cursive">${escapeHTML(bNamn)}</div>
+        <div>${escapeHTML(bNamn)}</div>
+      </div>
+      ${footerHTML}
+    </div></div>
+  `;
+
+  preview.innerHTML = html;
+}
+
+// ============================================
+// REGISTER
+// ============================================
+function collectAll() {
+  const data = {};
+  ['kund-namn','kund-kontakt','kund-adress','kund-ort',
+   'data-totalkwh','data-totalkr','data-vvmonth','data-antal-lgh',
+   'data-boa','data-temp','data-effekt','data-pct','data-ar','data-index',
+   'b-namn','b-tel','b-epost','b-ort','b-datum','b-giltig','m-tg'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) data[id] = el.value;
+  });
+  data.matningState = matningState;
+  data.tier = currentTier;
+  data.tierAuto = currentTierAuto;
+  data.pdfSource = pdfSource;
+  data.tillkommande = _tillkommande;
+  return data;
+}
+
+function saveCustomer() {
+  const namn = document.getElementById('kund-namn').value.trim();
+  if (!namn) { alert('Fyll i kundnamn först.'); return; }
+
+  const D = getEnergyData();
+  const matning = getMatningTotal();
+
+  const customer = collectAll();
+  customer.id = 'c-' + Date.now();
+  customer.status = 'räknad';
+  customer.createdAt = new Date().toISOString();
+  customer.calc = {
+    matning,
+    besparingKr: D.besparingKr,
+    pct: D.pct
+  };
+
+  const idx = customers.findIndex(c => c['kund-namn'] === namn);
+  if (idx >= 0) {
+    customer.id = customers[idx].id;
+    customer.createdAt = customers[idx].createdAt;
+    customer.status = customers[idx].status;
+    customers[idx] = customer;
+    alert('✓ Kund uppdaterad i registret');
+  } else {
+    customers.push(customer);
+    alert('✓ Kund sparad');
+  }
+
+  persistCustomers();
+  updateRegisterCount();
+}
+
+function persistCustomers() {
+  try {
+    localStorage.setItem('bravida-proptech-customers-v2', JSON.stringify(customers));
+  } catch(e) {}
+}
+
+function updateRegisterCount() {
+  document.getElementById('register-count').textContent = customers.length;
+}
+
+function renderRegister() {
+  const content = document.getElementById('register-content');
+  if (customers.length === 0) {
+    content.innerHTML = '<div class="empty-state"><p>Inga kunder sparade än.</p></div>';
+    return;
+  }
+  customers.sort((a,b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+  let html = `
+    <table class="register-table">
+      <thead><tr><th>Kund</th><th>LGH</th><th>Mätning</th><th>Besparing/år</th><th>Status</th><th>Datum</th><th></th></tr></thead>
+      <tbody>
+  `;
+  customers.forEach(c => {
+    const calc = c.calc || {};
+    html += `
+      <tr>
+        <td><strong>${escapeHTML(c['kund-namn'] || '')}</strong><br><span style="color:var(--muted); font-size:0.82rem">${escapeHTML(c['kund-ort'] || '')}</span></td>
+        <td>${c['data-antal-lgh'] || '–'}</td>
+        <td>${calc.matning ? fmt(calc.matning) + ' kr' : '–'}</td>
+        <td><strong>${calc.besparingKr ? fmt(calc.besparingKr) : '–'}</strong> kr</td>
+        <td>
+          <select onchange="updateStatus('${c.id}', this.value)" style="border:none; background:transparent; padding:0; font-size:0.88rem; cursor:pointer">
+            <option value="räknad" ${c.status==='räknad'?'selected':''}>🟡 Räknad</option>
+            <option value="anbud" ${c.status==='anbud'?'selected':''}>🔵 Anbud skickat</option>
+            <option value="avtal" ${c.status==='avtal'?'selected':''}>🟢 Avtal</option>
+            <option value="avböjt" ${c.status==='avböjt'?'selected':''}>🔴 Avböjt</option>
+          </select>
+        </td>
+        <td style="color:var(--muted)">${c.createdAt ? c.createdAt.split('T')[0] : '–'}</td>
+        <td>
+          <button class="btn-icon" onclick="loadCustomerById('${c.id}')" style="padding: 4px 8px">Öppna</button>
+          <button class="btn-icon" onclick="deleteCustomer('${c.id}')" style="padding: 4px 8px; color: var(--danger)">✕</button>
+        </td>
+      </tr>
+    `;
+  });
+  html += '</tbody></table>';
+  content.innerHTML = html;
+}
+
+function updateStatus(id, status) {
+  const c = customers.find(x => x.id === id);
+  if (c) { c.status = status; persistCustomers(); }
+}
+
+function loadCustomerById(id) {
+  const c = customers.find(x => x.id === id);
+  if (c) { populateForm(c); switchTab('kund'); }
+}
+
+function deleteCustomer(id) {
+  if (!confirm('Ta bort kunden?')) return;
+  customers = customers.filter(c => c.id !== id);
+  persistCustomers();
+  renderRegister();
+  updateRegisterCount();
+}
+
+function exportRegister() {
+  if (customers.length === 0) { alert('Inga kunder.'); return; }
+  let csv = 'Kund;Adress;Ort;LGH;BOA;Mätning;Besparing kr/år;Status;Datum\n';
+  customers.forEach(c => {
+    const calc = c.calc || {};
+    csv += [
+      c['kund-namn']||'', c['kund-adress']||'', c['kund-ort']||'',
+      c['data-antal-lgh']||'', c['data-boa']||'',
+      calc.matning ? Math.round(calc.matning) : '',
+      calc.besparingKr ? Math.round(calc.besparingKr) : '',
+      c.status || 'räknad',
+      c.createdAt ? c.createdAt.split('T')[0] : ''
+    ].map(v => `"${v}"`).join(';') + '\n';
+  });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Bravida_Kundregister_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+}
+
+function loadCustomer(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      populateForm(data);
+      alert('✓ Kund laddad');
+    } catch(err) {
+      alert('Fel: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function populateForm(data) {
+  Object.keys(data).forEach(id => {
+    if (['matningState','tier','tierAuto','pdfSource','tillkommande','status','id','createdAt','calc'].includes(id)) return;
+    const el = document.getElementById(id);
+    if (el && data[id] !== undefined) el.value = data[id];
+  });
+  if (data.matningState) matningState = data.matningState;
+  if (data.tier) { currentTier = data.tier; currentTierAuto = data.tierAuto || false; }
+  if (data.pdfSource) pdfSource = data.pdfSource;
+  if (data.tillkommande) _tillkommande = data.tillkommande;
+  onChange();
+}
+
+function resetForm() {
+  if (!confirm('Rensa allt och börja en ny kund?')) return;
+  document.querySelectorAll('input').forEach(i => {
+    if (i.id === 'data-temp') i.value = '22';
+    else if (i.id === 'data-pct') i.value = '15';
+    else if (i.id === 'data-ar') i.value = '2026';
+    else if (i.id === 'data-index') i.value = '3021-25 Teknikinstallationsavtalet';
+    else if (i.id === 'm-tg') i.value = '0.45';
+    else if (i.id === 'b-namn') i.value = 'Jonis Awad';
+    else if (i.id === 'b-epost') i.value = 'jonis.awad@bravida.se';
+    else if (i.id === 'b-datum') i.value = new Date().toISOString().split('T')[0];
+    else if (i.id !== 'load-file' && i.type !== 'file') i.value = '';
+  });
+  matningState = MATNING_ITEMS.map(i => ({ ...i }));
+  currentTier = null;
+  currentTierAuto = true;
+  pdfSource = 'energi';
+  _tillkommande = 0;
+  onChange();
+}
+
+// INIT
+document.getElementById('b-datum').value = new Date().toISOString().split('T')[0];
+onChange();
+updateRegisterCount();
+</script>
+</body>
+</html>
