@@ -1,6 +1,6 @@
 /* ===============================
    DESKTOP BOOST – Proptech BOX
-   Version 2: tydlig fullbredd för datorskärm
+   Version 3: riktig desktop-dashboard
 ================================ */
 
 html,
@@ -54,11 +54,12 @@ header {
 
 body > main,
 main {
-  width: 98vw !important;
-  max-width: 1840px !important;
+  width: 90vw !important;
+  max-width: 1500px !important;
+  min-width: min(90vw, 1280px) !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  padding: clamp(1.5rem, 2vw, 2.75rem) !important;
+  padding: clamp(1.5rem, 2vw, 2.4rem) 0 !important;
 }
 
 .panel.active {
@@ -67,9 +68,9 @@ main {
 
 .hero {
   width: 100% !important;
-  padding: clamp(2rem, 2.5vw, 3rem) !important;
+  padding: clamp(1.9rem, 2.3vw, 2.7rem) !important;
   border-radius: 24px !important;
-  margin-bottom: 1.7rem !important;
+  margin-bottom: 1.45rem !important;
   box-shadow: 0 24px 54px rgba(0, 63, 107, 0.20) !important;
 }
 
@@ -85,19 +86,19 @@ main {
 }
 
 .hero h1 {
-  font-size: clamp(1.8rem, 2.2vw, 2.45rem) !important;
+  font-size: clamp(1.8rem, 2.1vw, 2.35rem) !important;
 }
 
 .hero p {
   max-width: 1100px !important;
-  font-size: 1.05rem !important;
+  font-size: 1.02rem !important;
 }
 
 .grid-2,
 .grid-3,
 .grid-4,
 .kpi-grid {
-  gap: 1.5rem !important;
+  gap: 1.35rem !important;
   width: 100% !important;
 }
 
@@ -116,24 +117,24 @@ main {
 
 .card {
   border-radius: 20px !important;
-  padding: clamp(1.4rem, 1.6vw, 2rem) !important;
-  margin-bottom: 1.4rem !important;
+  padding: clamp(1.35rem, 1.45vw, 1.8rem) !important;
+  margin-bottom: 1.25rem !important;
   box-shadow: 0 18px 38px rgba(0, 63, 107, 0.08) !important;
   border-color: rgba(0, 99, 163, 0.14) !important;
 }
 
 .card-title {
-  font-size: 0.88rem !important;
+  font-size: 0.86rem !important;
 }
 
 .field label {
-  font-size: 0.9rem !important;
+  font-size: 0.88rem !important;
 }
 
 .field input,
 .field select {
-  min-height: 48px !important;
-  font-size: 1rem !important;
+  min-height: 46px !important;
+  font-size: 0.98rem !important;
   border-radius: 12px !important;
 }
 
@@ -148,18 +149,18 @@ main {
 }
 
 .kpi {
-  padding: 1.4rem !important;
+  padding: 1.3rem !important;
   border-radius: 20px !important;
   box-shadow: 0 14px 30px rgba(0, 63, 107, 0.07) !important;
 }
 
 .kpi-value {
-  font-size: clamp(1.6rem, 1.8vw, 2.2rem) !important;
+  font-size: clamp(1.55rem, 1.7vw, 2.05rem) !important;
 }
 
 .matning-table,
 .register-table {
-  font-size: 1rem !important;
+  font-size: 0.98rem !important;
 }
 
 .matning-table th,
@@ -174,11 +175,11 @@ main {
 .matning-table th,
 .register-table td,
 .register-table th {
-  padding: 0.9rem 0.95rem !important;
+  padding: 0.85rem 0.9rem !important;
 }
 
 .matning-table .col-antal input {
-  width: 100px !important;
+  width: 96px !important;
   min-height: 38px !important;
 }
 
@@ -197,35 +198,32 @@ main {
 
 .summary-box {
   border-radius: 22px !important;
-  padding: 2rem !important;
+  padding: 1.8rem !important;
   box-shadow: 0 22px 48px rgba(0, 63, 107, 0.18) !important;
 }
 
 .pdf-preview {
-  padding: 2.75rem !important;
+  padding: 2.4rem !important;
 }
 
 .brv-page {
   transform-origin: top center !important;
 }
 
-@media (min-width: 1500px) {
+@media (min-width: 1700px) {
   body > main,
   main {
-    width: 98.5vw !important;
-    max-width: 1900px !important;
-  }
-
-  .grid-2 {
-    grid-template-columns: 1fr 1fr !important;
+    width: 84vw !important;
+    max-width: 1540px !important;
   }
 }
 
 @media (max-width: 1100px) {
   body > main,
   main {
-    width: 100% !important;
-    padding: 1rem !important;
+    width: 94vw !important;
+    min-width: 0 !important;
+    padding: 1rem 0 !important;
   }
 
   .grid-2,
@@ -241,6 +239,12 @@ main {
 }
 
 @media (max-width: 768px) {
+  body > main,
+  main {
+    width: 94vw !important;
+    min-width: 0 !important;
+  }
+
   header {
     height: auto !important;
     min-height: 64px !important;
