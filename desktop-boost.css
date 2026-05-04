@@ -1,0 +1,275 @@
+/* ===============================
+   DESKTOP BOOST – Proptech BOX
+   Gör appen bättre på datorskärm
+================================ */
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(0,99,163,0.08), transparent 34rem),
+    linear-gradient(180deg, #F7FAFC 0%, #EEF3F6 100%);
+}
+
+header {
+  height: 72px;
+  padding: 0 clamp(1.25rem, 3vw, 3rem);
+  box-shadow: 0 10px 28px rgba(0, 63, 107, 0.06);
+}
+
+.star-logo {
+  width: 34px;
+  height: 34px;
+}
+
+.brand-text {
+  font-size: 1.28rem;
+  font-weight: 700;
+}
+
+.brand-sub {
+  font-size: 0.9rem;
+}
+
+.tabs {
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+  padding: 0 clamp(1.25rem, 3vw, 3rem);
+  justify-content: center;
+  box-shadow: 0 10px 22px rgba(0, 63, 107, 0.05);
+}
+
+.tab {
+  padding: 1rem 1.35rem;
+  font-size: 0.96rem;
+}
+
+main {
+  width: min(96vw, 1760px);
+  max-width: none;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 2vw, 2.5rem);
+}
+
+.hero {
+  padding: clamp(1.7rem, 2.4vw, 2.6rem);
+  border-radius: 22px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 22px 48px rgba(0, 63, 107, 0.18);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  right: -70px;
+  top: -100px;
+  background: rgba(125, 212, 176, 0.22);
+  border-radius: 999px;
+}
+
+.hero h1 {
+  font-size: clamp(1.65rem, 2vw, 2.25rem);
+}
+
+.hero p {
+  max-width: 980px;
+  font-size: 1rem;
+}
+
+.grid-2,
+.grid-3,
+.grid-4,
+.kpi-grid {
+  gap: 1.35rem;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4,
+.kpi-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.card {
+  border-radius: 18px;
+  padding: clamp(1.25rem, 1.5vw, 1.75rem);
+  box-shadow: 0 16px 34px rgba(0, 63, 107, 0.07);
+  border-color: rgba(0, 99, 163, 0.12);
+}
+
+.card-title {
+  font-size: 0.84rem;
+}
+
+.field label {
+  font-size: 0.86rem;
+}
+
+.field input,
+.field select {
+  min-height: 44px;
+  font-size: 0.96rem;
+  border-radius: 10px;
+}
+
+.btn,
+.btn-icon {
+  border-radius: 10px;
+}
+
+.btn {
+  min-height: 44px;
+}
+
+.kpi {
+  padding: 1.25rem;
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(0, 63, 107, 0.06);
+}
+
+.kpi-value {
+  font-size: clamp(1.45rem, 1.6vw, 2rem);
+}
+
+.matning-table,
+.register-table {
+  font-size: 0.95rem;
+}
+
+.matning-table th,
+.register-table th {
+  position: sticky;
+  top: 124px;
+  z-index: 5;
+  background: #fff;
+}
+
+.matning-table td,
+.matning-table th,
+.register-table td,
+.register-table th {
+  padding: 0.8rem 0.85rem;
+}
+
+.matning-table .col-antal input {
+  width: 92px;
+  min-height: 36px;
+}
+
+.product-toggle {
+  gap: 1rem;
+}
+
+.product-card,
+.tier {
+  border-radius: 14px;
+}
+
+.tier-row {
+  gap: 0.85rem;
+}
+
+.summary-box {
+  border-radius: 20px;
+  padding: 1.75rem;
+  box-shadow: 0 20px 44px rgba(0, 63, 107, 0.16);
+}
+
+.pdf-preview {
+  padding: 2.5rem;
+}
+
+.brv-page {
+  transform-origin: top center;
+}
+
+@media (min-width: 1440px) {
+  .card {
+    margin-bottom: 1.35rem;
+  }
+
+  .hero {
+    margin-bottom: 1.75rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  main {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tabs {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    height: auto;
+    min-height: 64px;
+    flex-wrap: wrap;
+    padding: 0.85rem 1rem;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .tabs {
+    top: 64px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .kpi-grid,
+  .product-toggle,
+  .tier-row {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    border-radius: 16px;
+  }
+
+  .pdf-preview {
+    padding: 1rem;
+    overflow-x: auto;
+  }
+}
+
+@media print {
+  body {
+    background: #fff !important;
+  }
+
+  header,
+  .tabs {
+    box-shadow: none !important;
+  }
+
+  .card,
+  .kpi,
+  .summary-box {
+    box-shadow: none !important;
+  }
+
+  main {
+    width: auto;
+  }
+}
