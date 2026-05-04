@@ -1,87 +1,104 @@
 /* ===============================
    DESKTOP BOOST – Proptech BOX
-   Tvingar bättre datorskärmslayout även om inline-CSS laddas efteråt
+   Version 2: tydlig fullbredd för datorskärm
 ================================ */
+
+html,
+body {
+  width: 100% !important;
+  min-width: 100% !important;
+  overflow-x: hidden !important;
+}
 
 body {
   background:
-    radial-gradient(circle at top left, rgba(0,99,163,0.08), transparent 34rem),
+    radial-gradient(circle at top left, rgba(0,99,163,0.10), transparent 36rem),
+    radial-gradient(circle at top right, rgba(125,212,176,0.12), transparent 32rem),
     linear-gradient(180deg, #F7FAFC 0%, #EEF3F6 100%) !important;
 }
 
+body > header,
 header {
-  height: 72px !important;
-  padding: 0 clamp(1.25rem, 3vw, 3rem) !important;
-  box-shadow: 0 10px 28px rgba(0, 63, 107, 0.06) !important;
+  height: 74px !important;
+  padding: 0 clamp(1.25rem, 3vw, 3.5rem) !important;
+  box-shadow: 0 10px 28px rgba(0, 63, 107, 0.08) !important;
 }
 
 .star-logo {
-  width: 34px !important;
-  height: 34px !important;
+  width: 36px !important;
+  height: 36px !important;
 }
 
 .brand-text {
-  font-size: 1.28rem !important;
-  font-weight: 700 !important;
+  font-size: 1.34rem !important;
+  font-weight: 800 !important;
 }
 
 .brand-sub {
-  font-size: 0.9rem !important;
+  font-size: 0.96rem !important;
 }
 
 .tabs {
   position: sticky !important;
-  top: 72px !important;
+  top: 74px !important;
   z-index: 90 !important;
-  padding: 0 clamp(1.25rem, 3vw, 3rem) !important;
+  padding: 0 clamp(1.25rem, 3vw, 3.5rem) !important;
   justify-content: center !important;
-  box-shadow: 0 10px 22px rgba(0, 63, 107, 0.05) !important;
+  box-shadow: 0 10px 22px rgba(0, 63, 107, 0.06) !important;
 }
 
 .tab {
-  padding: 1rem 1.35rem !important;
-  font-size: 0.96rem !important;
+  padding: 1.05rem 1.45rem !important;
+  font-size: 1rem !important;
 }
 
+body > main,
 main {
-  width: min(96vw, 1760px) !important;
-  max-width: none !important;
-  margin: 0 auto !important;
-  padding: clamp(1.5rem, 2vw, 2.5rem) !important;
+  width: 98vw !important;
+  max-width: 1840px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: clamp(1.5rem, 2vw, 2.75rem) !important;
+}
+
+.panel.active {
+  width: 100% !important;
 }
 
 .hero {
-  padding: clamp(1.7rem, 2.4vw, 2.6rem) !important;
-  border-radius: 22px !important;
-  margin-bottom: 1.5rem !important;
-  box-shadow: 0 22px 48px rgba(0, 63, 107, 0.18) !important;
+  width: 100% !important;
+  padding: clamp(2rem, 2.5vw, 3rem) !important;
+  border-radius: 24px !important;
+  margin-bottom: 1.7rem !important;
+  box-shadow: 0 24px 54px rgba(0, 63, 107, 0.20) !important;
 }
 
 .hero::after {
-  content: "";
+  content: "" !important;
   position: absolute !important;
-  width: 280px !important;
-  height: 280px !important;
-  right: -70px !important;
-  top: -100px !important;
-  background: rgba(125, 212, 176, 0.22) !important;
+  width: 320px !important;
+  height: 320px !important;
+  right: -80px !important;
+  top: -120px !important;
+  background: rgba(125, 212, 176, 0.24) !important;
   border-radius: 999px !important;
 }
 
 .hero h1 {
-  font-size: clamp(1.65rem, 2vw, 2.25rem) !important;
+  font-size: clamp(1.8rem, 2.2vw, 2.45rem) !important;
 }
 
 .hero p {
-  max-width: 980px !important;
-  font-size: 1rem !important;
+  max-width: 1100px !important;
+  font-size: 1.05rem !important;
 }
 
 .grid-2,
 .grid-3,
 .grid-4,
 .kpi-grid {
-  gap: 1.35rem !important;
+  gap: 1.5rem !important;
+  width: 100% !important;
 }
 
 .grid-2 {
@@ -98,55 +115,57 @@ main {
 }
 
 .card {
-  border-radius: 18px !important;
-  padding: clamp(1.25rem, 1.5vw, 1.75rem) !important;
-  box-shadow: 0 16px 34px rgba(0, 63, 107, 0.07) !important;
-  border-color: rgba(0, 99, 163, 0.12) !important;
+  border-radius: 20px !important;
+  padding: clamp(1.4rem, 1.6vw, 2rem) !important;
+  margin-bottom: 1.4rem !important;
+  box-shadow: 0 18px 38px rgba(0, 63, 107, 0.08) !important;
+  border-color: rgba(0, 99, 163, 0.14) !important;
 }
 
 .card-title {
-  font-size: 0.84rem !important;
+  font-size: 0.88rem !important;
 }
 
 .field label {
-  font-size: 0.86rem !important;
+  font-size: 0.9rem !important;
 }
 
 .field input,
 .field select {
-  min-height: 44px !important;
-  font-size: 0.96rem !important;
-  border-radius: 10px !important;
+  min-height: 48px !important;
+  font-size: 1rem !important;
+  border-radius: 12px !important;
 }
 
 .btn,
 .btn-icon {
-  border-radius: 10px !important;
+  border-radius: 12px !important;
 }
 
 .btn {
-  min-height: 44px !important;
+  min-height: 46px !important;
+  font-size: 0.96rem !important;
 }
 
 .kpi {
-  padding: 1.25rem !important;
-  border-radius: 18px !important;
-  box-shadow: 0 12px 28px rgba(0, 63, 107, 0.06) !important;
+  padding: 1.4rem !important;
+  border-radius: 20px !important;
+  box-shadow: 0 14px 30px rgba(0, 63, 107, 0.07) !important;
 }
 
 .kpi-value {
-  font-size: clamp(1.45rem, 1.6vw, 2rem) !important;
+  font-size: clamp(1.6rem, 1.8vw, 2.2rem) !important;
 }
 
 .matning-table,
 .register-table {
-  font-size: 0.95rem !important;
+  font-size: 1rem !important;
 }
 
 .matning-table th,
 .register-table th {
   position: sticky !important;
-  top: 124px !important;
+  top: 132px !important;
   z-index: 5 !important;
   background: #fff !important;
 }
@@ -155,52 +174,55 @@ main {
 .matning-table th,
 .register-table td,
 .register-table th {
-  padding: 0.8rem 0.85rem !important;
+  padding: 0.9rem 0.95rem !important;
 }
 
 .matning-table .col-antal input {
-  width: 92px !important;
-  min-height: 36px !important;
+  width: 100px !important;
+  min-height: 38px !important;
 }
 
 .product-toggle {
-  gap: 1rem !important;
+  gap: 1.1rem !important;
 }
 
 .product-card,
 .tier {
-  border-radius: 14px !important;
+  border-radius: 16px !important;
 }
 
 .tier-row {
-  gap: 0.85rem !important;
+  gap: 0.95rem !important;
 }
 
 .summary-box {
-  border-radius: 20px !important;
-  padding: 1.75rem !important;
-  box-shadow: 0 20px 44px rgba(0, 63, 107, 0.16) !important;
+  border-radius: 22px !important;
+  padding: 2rem !important;
+  box-shadow: 0 22px 48px rgba(0, 63, 107, 0.18) !important;
 }
 
 .pdf-preview {
-  padding: 2.5rem !important;
+  padding: 2.75rem !important;
 }
 
 .brv-page {
   transform-origin: top center !important;
 }
 
-@media (min-width: 1440px) {
-  .card {
-    margin-bottom: 1.35rem !important;
+@media (min-width: 1500px) {
+  body > main,
+  main {
+    width: 98.5vw !important;
+    max-width: 1900px !important;
   }
 
-  .hero {
-    margin-bottom: 1.75rem !important;
+  .grid-2 {
+    grid-template-columns: 1fr 1fr !important;
   }
 }
 
 @media (max-width: 1100px) {
+  body > main,
   main {
     width: 100% !important;
     padding: 1rem !important;
@@ -271,5 +293,6 @@ main {
 
   main {
     width: auto !important;
+    max-width: none !important;
   }
 }
